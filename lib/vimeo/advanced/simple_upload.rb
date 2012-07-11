@@ -25,6 +25,8 @@ module Vimeo
         Rails.logger.info "********************"
         Rails.logger.info "********************"
         Rails.logger.info io.class
+        Rails.logger.info io.singleton_class
+        Rails.logger.info io.to_json
         Rails.logger.info io.methods
         
         raise "#{io.inspect} must respond to #read" unless io.respond_to?(:read)
