@@ -21,7 +21,12 @@ module Vimeo
       protected
 
       # Uploads an IO to Vimeo.
-      def upload_io(io, size, filename = 'io.data')
+      def upload_io(io, size = 0, filename = 'io.data')
+        logger.info "********************"
+        logger.info "********************"
+        logger.info io.class
+        logger.info io.methods
+        
         raise "#{io.inspect} must respond to #read" unless io.respond_to?(:read)
         task = Task.new(self, @oauth_consumer, io, size, filename)
         task.execute
