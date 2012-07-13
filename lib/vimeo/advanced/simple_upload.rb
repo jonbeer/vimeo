@@ -11,10 +11,13 @@ module Vimeo
         
         case uploadable
         when File, Tempfile
+          puts "In SimpleUpload.upload (File) - calling upload_file"
           upload_file(uploadable)
         when String
+          puts "In SimpleUpload.upload (String) - calling upload_file"
           upload_file(File.new(uploadable))
         else
+          puts "In SimpleUpload.upload - calling upload_io"
           upload_io(uploadable, uploadable.size)
         end
       end
@@ -22,7 +25,11 @@ module Vimeo
       protected
 
       # Uploads an IO to Vimeo.
-      def upload_io(io, size, filename = 'io.data')        
+      def upload_io(io, size, filename = 'io.data')     
+        
+        puts "In SimpleUpload.upload_io"
+        puts io
+           
         raise "#{io.inspect} must respond to #read" unless io.respond_to?(:read)
         task = Task.new(self, @oauth_consumer, io, size, filename)
         task.execute

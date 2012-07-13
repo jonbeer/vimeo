@@ -10,6 +10,7 @@ module Vimeo
         attr_reader :id, :video_id
 
         def initialize(vimeo, oauth_consumer, io, size, filename)
+          puts "In Task.new"
           @vimeo, @oauth_consumer = vimeo, oauth_consumer
           @io, @size, @filename = io, size, filename
           @chunks = []
@@ -18,6 +19,7 @@ module Vimeo
         # Uploads the file to Vimeo and returns the +video_id+ on success.
         def execute
           
+          puts "In Task.execute"
           check_quota
           authorize
           upload
@@ -31,7 +33,7 @@ module Vimeo
 
         # Checks whether the file can be uploaded.
         def check_quota
-          
+          puts "In Task.check_quota"
           quota = vimeo.get_quota
           free  = quota["user"]["upload_space"]["free"].to_i
 
@@ -40,7 +42,7 @@ module Vimeo
 
         # Gets a +ticket_id+ for the upload.
         def authorize
-          
+          puts "In Task.authorize"
           ticket = vimeo.get_ticket
 
           @id             = ticket["ticket"]["id"]
@@ -52,7 +54,9 @@ module Vimeo
 
         # Performs the upload.
         def upload
+          puts "In Task.upload"
           while (chunk_data = io.read(CHUNK_SIZE)) do
+            puts "In Task.upload - reading..."
             chunk = Chunk.new(self, chunk_data)
             chunk.upload
             chunks << chunk
@@ -61,6 +65,7 @@ module Vimeo
 
         # Tells vimeo that the upload is complete.
         def complete
+          puts "In Task.complete"
           @video_id = vimeo.complete(id, filename)
         end
 
