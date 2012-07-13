@@ -113,7 +113,9 @@ private
         status = response["stat"]
         if status and status != "ok"
           error = response["err"]
+          puts response
           if error
+            puts error
             raise RequestFailed, "#{error["code"]}: #{error["msg"]}, explanation: #{error["expl"]}"
           else
             raise RequestFailed, "Error: #{status}, no error message"
