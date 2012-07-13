@@ -18,6 +18,7 @@ module Vimeo
 
         # Performs the upload via Multipart.
         def upload
+          
           endpoint = "#{task.endpoint}"
 
           response = task.oauth_consumer.request(:post, endpoint, vimeo.get_access_token, {}, {}) do |req|

@@ -8,27 +8,21 @@ module Vimeo
 
       # Uploads data (IO streams or files) to Vimeo.
       def upload(uploadable)
+        
         case uploadable
         when File, Tempfile
           upload_file(uploadable)
         when String
           upload_file(File.new(uploadable))
         else
-          upload_io(uploadable)
+          upload_io(uploadable, uploadable.size)
         end
       end
 
       protected
 
       # Uploads an IO to Vimeo.
-      def upload_io(io, size = 0, filename = 'io.data')
-        Rails.logger.info "********************"
-        Rails.logger.info "********************"
-        Rails.logger.info io.class
-        Rails.logger.info io.singleton_class
-        Rails.logger.info io.to_json
-        Rails.logger.info io.methods
-        
+      def upload_io(io, size, filename = 'io.data')        
         raise "#{io.inspect} must respond to #read" unless io.respond_to?(:read)
         task = Task.new(self, @oauth_consumer, io, size, filename)
         task.execute

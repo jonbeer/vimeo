@@ -17,6 +17,7 @@ module Vimeo
 
         # Uploads the file to Vimeo and returns the +video_id+ on success.
         def execute
+          
           check_quota
           authorize
           upload
@@ -30,6 +31,7 @@ module Vimeo
 
         # Checks whether the file can be uploaded.
         def check_quota
+          
           quota = vimeo.get_quota
           free  = quota["user"]["upload_space"]["free"].to_i
 
@@ -38,6 +40,7 @@ module Vimeo
 
         # Gets a +ticket_id+ for the upload.
         def authorize
+          
           ticket = vimeo.get_ticket
 
           @id             = ticket["ticket"]["id"]
