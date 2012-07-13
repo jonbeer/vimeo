@@ -66,6 +66,9 @@ module Vimeo
         # Tells vimeo that the upload is complete.
         def complete
           puts "In Task.complete"
+          puts id
+          puts filename
+          
           @video_id = vimeo.complete(id, filename)
         end
 
